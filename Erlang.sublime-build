@@ -1,0 +1,5 @@
+{
+	"cmd": ["emc.exe", "utf8 all wkdir ${project_path}", "${file}"],
+	"file_regex":"^([^:]+):([0-9]*):?(.*):?(.*)",
+	"selector": "source.erl"
+}
