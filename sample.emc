@@ -1,0 +1,7 @@
+debug on
+dir src
+dir src\common
+
+clear on
+dir src/data
+exit
