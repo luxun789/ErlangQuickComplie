@@ -1,0 +1,33 @@
+<snippet>
+    <content><![CDATA[
+-behaviour(application).
+-export([start/2, stop/1]).
+
+%% ====================================================================
+%% API functions
+%% ====================================================================
+-export([]).
+
+%% ====================================================================
+%% Behavioural functions 
+%% ====================================================================
+start(Type, StartArgs) ->
+    case ${1:TopSupervisor}:start_link(StartArgs) of
+        {ok, Pid} ->
+            {ok, Pid};
+        Error ->
+            Error
+    end.
+
+stop(State) ->
+    ok.
+
+%% ====================================================================
+%% Internal functions
+%% ====================================================================
+
+]]></content>
+    <tabTrigger>application</tabTrigger>
+    <scope>source.erlang</scope>
+    <description>Behaviour:application</description>
+</snippet>

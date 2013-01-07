@@ -1,0 +1,79 @@
+<snippet>
+    <content><![CDATA[
+-behaviour(supervisor).
+-export([start_link/0, init/1]).
+
+%% ====================================================================
+%% API functions
+%% ====================================================================
+-export([]).
+
+%% ====================================================================
+%% Behavioural functions 
+%% ====================================================================
+-define(SERVER, ?MODULE).
+
+start_link() ->
+    supervisor:start_link({local, ?SERVER}, ?MODULE, []).   %%启动监督者
+
+init([]) ->
+    Server = {              %% 设置被监督的进程及相关参数
+        ${1:'AName'},       %%监督标识名
+
+        %%启动项
+        {
+            ${2:'AModule'}, %%监督模块名
+            start_link,     %%监督模块启动函数
+            []              %%监督模块启动函数参数
+        },
+
+        %%重启方式
+        %%  permanet | temporary | transient
+        permanent,
+
+        %% 关闭前缓冲时间
+        %%      毫秒数: 等待设定时间内关闭, 超时无条件关闭
+        %%      brutal_kill : 立即终止子进程
+        %%      infinity : 无限制等待, 直到子进程退出.
+        2000,
+
+        %% 被监督进程角色 [supervisor : 监督者(用于构建监督树) | worker: 工作者]
+        worker,
+
+        %% 被监督进程的依赖模块列表
+        [
+            ${3:'ModuleList'}
+        ]
+    },
+
+    %%返回监督者信息
+    {ok, 
+        {
+            %% 监督者重启策略 :: {
+            %%      监督方式 ::
+            %%          one_for_all :: 一旦有子进程退出, 监督者将针对该进程, 且仅针对该进程进行重启.
+            %%          one_for_one :: 
+            %%          rest_for_one ::
+            %%          simple_one_for_one ::
+            %%      重启频率 :: 
+            %%          单位时间片内最大重启次数, 单位时间片
+            %% }
+            {
+                one_for_all,
+                0, 1
+            },
+
+            %% 被监督的管理模块
+            [Server]
+        }
+    }.
+
+%% ====================================================================
+%% Internal functions
+%% ====================================================================
+
+]]></content>
+    <tabTrigger>supervisor</tabTrigger>
+    <scope>source.erlang</scope>
+    <description>Behaviour:supervisor</description>
+</snippet>
