@@ -1,3 +1,4 @@
+%注释支持
 debug on
 dir src
 dir src\common
